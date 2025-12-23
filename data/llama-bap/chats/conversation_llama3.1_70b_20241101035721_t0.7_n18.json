@@ -1,0 +1,152 @@
+[
+    {
+        "content": "Ciao",
+        "role": "user",
+        "name": "Patient"
+    },
+    {
+        "content": "Ciao! Sono Demetra, un chatbot esperto in coaching della salute dei bambini 1-3 anni. Sono qui per aiutarti a proporre uno stile di vita salutare per tuo figlio/a con una dieta e attivit\u00e0 fisica bilanciata. Come ti chiami?",
+        "role": "assistant",
+        "name": "Counselor"
+    },
+    {
+        "content": "Ciao Demetra, mi chiamo Luca.",
+        "role": "user",
+        "name": "Patient"
+    },
+    {
+        "content": "Ciao Luca! Sono felice di incontrarti. Puoi dirmi un po' di pi\u00f9 su tuo figlio/a? Qual \u00e8 il suo nome, et\u00e0 e come sta?",
+        "role": "assistant",
+        "name": "Counselor"
+    },
+    {
+        "content": "Si chiama Sofia, ha 2 anni e mezzo ed \u00e8 in sovrappeso.",
+        "role": "user",
+        "name": "Patient"
+    },
+    {
+        "content": "Grazie per aver condiviso questo con me, Luca. Sono qui per aiutarti a trovare un modo per aiutare Sofia ad avere uno stile di vita pi\u00f9 salutare. Posso chiederti, come descriveresti il tuo stile di vita attuale e quello di Sofia?",
+        "role": "assistant",
+        "name": "Counselor"
+    },
+    {
+        "content": "Siamo sempre di corsa, lavoriamo entrambi e spesso ceniamo fuori o ordiniamo cibo a domicilio. Sofia passa molto tempo con la babysitter che le d\u00e0 spesso snack veloci.",
+        "role": "user",
+        "name": "Patient"
+    },
+    {
+        "content": "Capisco. Sembra che il vostro stile di vita sia abbastanza frenetico! E' chiaro che ci\u00f2 possa influenzare anche le abitudini alimentari e l'attivit\u00e0 fisica di Sofia. C'\u00e8 qualcosa che vorresti fare per la salute di Sofia nelle prossime settimane?",
+        "role": "assistant",
+        "name": "Counselor"
+    },
+    {
+        "content": "S\u00ec, vorrei ridurre il cibo spazzatura e aumentare i pasti fatti in casa. E anche farla muovere di pi\u00f9!",
+        "role": "user",
+        "name": "Patient"
+    },
+    {
+        "content": "Fantastico! Sembra che tu abbia gi\u00e0 un'idea chiara di cosa vuoi cambiare. Pu\u00f2 essere utile identificare alcuni ostacoli che potrebbero impedirti di raggiungere questi obiettivi. Quali pensi siano i principali ostacoli che ti impediscono di ridurre il cibo spazzatura e aumentare l'attivit\u00e0 fisica di Sofia?",
+        "role": "assistant",
+        "name": "Counselor"
+    },
+    {
+        "content": "Il tempo! Non abbiamo mai abbastanza tempo per cucinare o portarla al parco. E poi, lei piange sempre quando le neghiamo i suoi snack preferiti...",
+        "role": "user",
+        "name": "Patient"
+    },
+    {
+        "content": "Capisco. Il tempo e la resistenza dei bambini possono essere due ostacoli grandi! Cosa potrebbe aiutarti a superare questi ostacoli? Ad esempio, ci sono modi per cucinare pi\u00f9 velocemente o rendere l'attivit\u00e0 fisica pi\u00f9 divertente per Sofia?",
+        "role": "assistant",
+        "name": "Counselor"
+    },
+    {
+        "content": "Potrei preparare i pasti la sera prima e congelarli. E forse portarla al parco il sabato mattina quando non lavoro!",
+        "role": "user",
+        "name": "Patient"
+    },
+    {
+        "content": "Ottima idea, Luca! Preparare i pasti in anticipo pu\u00f2 essere un grande risparmio di tempo e portare Sofia al parco il sabato mattina \u00e8 un ottimo modo per farla muovere e trascorrere del tempo di qualit\u00e0 con lei. Sai cosa sono gli obiettivi SMART?",
+        "role": "assistant",
+        "name": "Counselor"
+    },
+    {
+        "content": "No, non lo so...",
+        "role": "user",
+        "name": "Patient"
+    },
+    {
+        "content": "Gli obiettivi SMART sono Specifici, Misurabili, Attuabili, Rilevanti e Temporali. Sono un modo per definire obiettivi chiari e raggiungibili. Ad esempio, invece di dire \"Voglio cucinare pi\u00f9 spesso\", potresti dire \"Voglio preparare 3 pasti sani a casa ogni settimana per le prossime 4 settimane\". Capisci?",
+        "role": "assistant",
+        "name": "Counselor"
+    },
+    {
+        "content": "S\u00ec, capisco! Quindi dovrei essere pi\u00f9 specifico e dare una scadenza ai miei obiettivi. Ad esempio, \"Voglio portare Sofia al parco il sabato mattina per un'ora per le prossime 4 settimane\".",
+        "role": "user",
+        "name": "Patient"
+    },
+    {
+        "content": "Esattamente! Stai definendo un obiettivo SMART! Ora che hai questo obiettivo chiaro, come pensi di assicurarti di raggiungerlo? Ad esempio, potresti mettere una nota nel tuo calendario per ricordarti di portare Sofia al parco ogni sabato mattina?",
+        "role": "assistant",
+        "name": "Counselor"
+    },
+    {
+        "content": "S\u00ec, posso impostare un promemoria sul mio telefono per ricordarmi di portarla al parco ogni sabato mattina alle 10!",
+        "role": "user",
+        "name": "Patient"
+    },
+    {
+        "content": "Ottimo piano! Impostare un promemoria sul tuo telefono ti aiuter\u00e0 a non dimenticare di portare Sofia al parco. Adesso, pensa a eventuali ostacoli che potrebbero impedirti di raggiungere questo obiettivo. Ad esempio, cosa succederebbe se facesse troppo freddo o piovoso il sabato mattina?",
+        "role": "assistant",
+        "name": "Counselor"
+    },
+    {
+        "content": "Potrei cercare un'alternativa come la palestra per bambini vicino a casa nostra!",
+        "role": "user",
+        "name": "Patient"
+    },
+    {
+        "content": "Fantastico! Hai trovato una soluzione alternativa in caso di maltempo. Questa \u00e8 una grande idea, perch\u00e9 ti assicurerai di non perdere il ritmo e di continuare a fare attivit\u00e0 fisica con Sofia anche se il tempo non \u00e8 favorevole. Quanto sicuro sei di riuscire a raggiungere questo obiettivo? Ti senti motivato e determinato?",
+        "role": "assistant",
+        "name": "Counselor"
+    },
+    {
+        "content": "S\u00ec, mi sento molto motivato! Voglio vedere Sofia felice e in forma, quindi sono pronto a fare del mio meglio per raggiungere questo obiettivo!",
+        "role": "user",
+        "name": "Patient"
+    },
+    {
+        "content": "Fantastico! La tua motivazione \u00e8 contagiosa! Sono sicuro che riuscirai a raggiungere il tuo obiettivo. Quanto ti senti sulla scala della sicurezza, da 1 a 10? Dove 1 \u00e8 \"non sono per niente sicuro\" e 10 \u00e8 \"sono molto sicuro\"?",
+        "role": "assistant",
+        "name": "Counselor"
+    },
+    {
+        "content": "Mi sento un 9! Sono abbastanza sicuro di poterlo fare!",
+        "role": "user",
+        "name": "Patient"
+    },
+    {
+        "content": "Ottimo! Un 9 \u00e8 un ottimo punteggio! Sembra che tu sia molto determinato e motivato. Cosa pensi che ti possa aiutare a raggiungere quel 10% in pi\u00f9 di sicurezza? C'\u00e8 qualcosa o qualcuno che potrebbe supportarti nel tuo percorso?",
+        "role": "assistant",
+        "name": "Counselor"
+    },
+    {
+        "content": "Potrei chiedere alla mia compagna di sostenermi e aiutarmi a rimanere sulla strada giusta!",
+        "role": "user",
+        "name": "Patient"
+    },
+    {
+        "content": "Fantastico! Avere il sostegno della tua compagna pu\u00f2 fare una grande differenza! Avere qualcuno che crede in te e ti supporta pu\u00f2 darti la motivazione extra per raggiungere i tuoi obiettivi. Sembra che tu abbia un piano solido e un buon sostegno emotivo. Ora, quando pensi di voler controllare i progressi fatti? Vorresti fissare una data per verificare come stai andando?",
+        "role": "assistant",
+        "name": "Counselor"
+    },
+    {
+        "content": "S\u00ec, potrei fissare una data tra 4 settimane da adesso per vedere come sto andando e se Sofia \u00e8 migliorata!",
+        "role": "user",
+        "name": "Patient"
+    },
+    {
+        "content": "Ottimo piano! Tra 4 settimane sar\u00e0 un buon momento per valutare i progressi fatti e vedere se hai raggiunto alcuni dei tuoi obiettivi. Sono sicuro che sarai in grado di vedere dei risultati positivi!\n\nAllora, \u00e8 tutto pronto! Abbiamo definito un piano d'azione, identificato degli ostacoli potenziali e trovato una soluzione per superarli, stabilito un livello di sicurezza e fissato una data per verificare i progressi. Sei pronto a iniziare questo percorso con Sofia!\n\nGrazie mille per la tua partecipazione e impegno! Sono stato felice di aiutarti a definire un piano per aiutare Sofia a essere pi\u00f9 attiva e sana.\n\nSTOP",
+        "role": "assistant",
+        "name": "Counselor"
+    }
+]
