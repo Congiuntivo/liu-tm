@@ -2,7 +2,7 @@
 
 % Change "review" to "final" to generate the final (sometimes called camera-ready) version.
 % Change to "preprint" to generate a non-anonymous version with page numbers.
-\usepackage{acl}
+\usepackage[final]{acl}
 
 % Standard package includes
 \usepackage{times}
@@ -30,30 +30,18 @@
 %Including images in your LaTeX document requires adding
 %additional package(s)
 \usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{siunitx}
+\sisetup{table-format=1.3}
 
 % If the title and author information does not fit in the area allocated, uncomment the following
 %
-%\setlength\titlebox{<dim>}
+% \setlength\titlebox{5cm}
 %
 % and set <dim> to something 5cm or larger.
 
-\title{TM project report - Title TBD}
-
-% Author information can be set in various styles:
-% For several authors from the same institution:
-% \author{Author 1 \and ... \and Author n \\
-%         Address line \\ ... \\ Address line}
-% if the names do not fit well on one line use
-%         Author 1 \\ {\bf Author 2} \\ ... \\ {\bf Author n} \\
-% For authors from different institutions:
-% \author{Author 1 \\ Address line \\  ... \\ Address line
-%         \And  ... \And
-%         Author n \\ Address line \\ ... \\ Address line}
-% To start a separate ``row'' of authors use \AND, as in
-% \author{Author 1 \\ Address line \\  ... \\ Address line
-%         \AND
-%         Author 2 \\ Address line \\ ... \\ Address line \And
-%         Author 3 \\ Address line \\ ... \\ Address line}
+\title{Identifying Large Language Models from Generated Text: A Case Study in Italian Counseling Dialogues}
 
 \author{Simone De Carli \\
   Link\"oping University \\
@@ -61,282 +49,209 @@
   \texttt{simde798@liu.se}
 }
 
-%\author{
-%  \textbf{First Author\textsuperscript{1}},
-%  \textbf{Second Author\textsuperscript{1,2}},
-%  \textbf{Third T. Author\textsuperscript{1}},
-%  \textbf{Fourth Author\textsuperscript{1}},
-%\\
-%  \textbf{Fifth Author\textsuperscript{1,2}},
-%  \textbf{Sixth Author\textsuperscript{1}},
-%  \textbf{Seventh Author\textsuperscript{1}},
-%  \textbf{Eighth Author \textsuperscript{1,2,3,4}},
-%\\
-%  \textbf{Ninth Author\textsuperscript{1}},
-%  \textbf{Tenth Author\textsuperscript{1}},
-%  \textbf{Eleventh E. Author\textsuperscript{1,2,3,4,5}},
-%  \textbf{Twelfth Author\textsuperscript{1}},
-%\\
-%  \textbf{Thirteenth Author\textsuperscript{3}},
-%  \textbf{Fourteenth F. Author\textsuperscript{2,4}},
-%  \textbf{Fifteenth Author\textsuperscript{1}},
-%  \textbf{Sixteenth Author\textsuperscript{1}},
-%\\
-%  \textbf{Seventeenth S. Author\textsuperscript{4,5}},
-%  \textbf{Eighteenth Author\textsuperscript{3,4}},
-%  \textbf{Nineteenth N. Author\textsuperscript{2,5}},
-%  \textbf{Twentieth Author\textsuperscript{1}}
-%\\
-%\\
-%  \textsuperscript{1}Affiliation 1,
-%  \textsuperscript{2}Affiliation 2,
-%  \textsuperscript{3}Affiliation 3,
-%  \textsuperscript{4}Affiliation 4,
-%  \textsuperscript{5}Affiliation 5
-%\\
-%  \small{
-%    \textbf{Correspondence:} \href{mailto:email@domain}{email@domain}
-%  }
-%}
-
 \begin{document}
 \maketitle
-\begin{abstract}
-  This document is a supplement to the general instructions for *ACL authors. It contains instructions for using the \LaTeX{} style files for ACL conferences.
-  The document itself conforms to its own specifications, and is therefore an example of what your manuscript should look like.
-  These instructions should be used both for papers submitted for review and for final versions of accepted papers.
-\end{abstract}
 
-\section*{Research Question}
-Can textual interaction patterns alone reliably identify the underlying LLM model used to generate counseling dialogues, even when prompts and task structure are held constant?
+\begin{abstract}
+  We investigate whether Large Language Models (LLMs) can be identified from text alone in controlled Italian counseling dialogues. Using TF--IDF $n$-gram representations, unsupervised clustering and linear SVM classification achieve near-perfect separation between four LLMs. Interpretability analysis shows that lexical choices, phrasal patterns, and even personal names contribute to model fingerprints. Simple formatting features alone reach 90\% accuracy, indicating that surface-level cues also reflect model-specific tendencies. These results demonstrate that LLM-generated texts carry distinctive, detectable signatures under identical prompts and dialogue structures.
+\end{abstract}
 
 \section{Introduction}
 
-Large Language Models (LLMs) are increasingly deployed as conversational agents in sensitive domains such as health counseling. Even when identical prompts and task protocols are used, different LLMs may exhibit systematic stylistic and linguistic differences. Understanding whether such differences are detectable from generated text alone is relevant for model evaluation, transparency, and attribution.
-
-In this project, we investigate whether the underlying LLM used to generate counseling conversations can be identified solely from textual content. We focus on dialogues generated according to the Brief Action Planning (BAP) protocol, where prompts, language, and interaction structure are held constant across models. This controlled setting allows us to attribute observed variation to model-specific generation behavior rather than task or prompt differences.
-
-We frame the problem as a model recognition task, combining unsupervised clustering with supervised classification. Clustering is used to assess whether structure emerges without label information, while classification provides a quantitative measure of separability and supports interpretability analysis aimed at identifying linguistic features characteristic of each model.
+Large Language Models (LLMs) are increasingly deployed as conversational agents across domains. Even under identical prompts and task protocols, different LLMs may exhibit systematic stylistic and linguistic differences. Detecting such differences from generated text alone is relevant for model evaluation, transparency, and attribution.
+We investigate whether the underlying LLM used to generate counseling conversations can be identified solely from textual content. We focus on dialogues generated by two virtual agents simulating Brief Action Planning (BAP) counseling sessions, where prompts, language, and interaction structure are held constant across models. This controlled setting allows us to attribute observed variation to model-specific generation behavior.
+We combine unsupervised clustering with supervised classification to assess whether structure emerges without labels and to quantify model separability, supported by interpretability analysis identifying characteristic linguistic features.
 
 \section{Theory}
 
+LLM-generated text can be fingerprinted using text mining techniques that capture systematic linguistic patterns. Even with fixed prompts and protocols, different models may exhibit persistent generation biases from architectural choices, training data, and decoding strategies, manifesting as distinctive lexical preferences, phrasal templates, and formatting tendencies.
+Authorship attribution research shows that shallow features such as function words, word $n$-grams, and TF--IDF representations effectively distinguish between authors~\cite{unknown}. Similar approaches have been applied to AI-generated text detection, where stylometric representations outperformed simple Bag-of-Words baselines~\cite{kumarage2023stylometricdetectionaigeneratedtext}, suggesting that neural language models leave detectable stylistic signatures.
+TF--IDF-weighted word $n$-grams capture these signatures through lexical choice and short-range phrasal patterns. Retaining stop words is important as they encode stylistic rather than semantic information. If model-specific fingerprints exist, texts from different LLMs should form separable groups in this feature space. Unsupervised clustering assesses structure emergence without labels, while supervised classification quantifies separability and enables interpretability through feature weights. Surface-level formatting features may provide complementary signals for model recognition.
+
 \section{Data}
 
-The dataset consists of 1,000 simulated counseling conversations generated for the validation of a chatbot coach for overweight children, following the Brief Action Planning (BAP) protocol. All conversations are in Italian and involve two LLM-based agents playing the roles of counselor and patient. Prompts and conversational structure are fixed across all simulations.
+The dataset consists of 1,000 simulated counseling conversations generated for validating a chatbot coach for parents of overweight children, following the Brief Action Planning (BAP) protocol using VALISE~\cite{Bolpagni2025-xw} a tool for simulating dialogues with LLM-based agents. All conversations are in Italian and involve two LLM-based agents as counselor and patient. Prompts and conversational structure are fixed across simulations, with role-playing prompts defining professional BAP counselor and parent roles.
+Conversations were generated using four LLMs: \texttt{qwen2.5:32b}, \texttt{qwen2.5:72b}, \texttt{llama3.2-vision:90b}, and \texttt{aya-expanse:32b}, each with five temperature values \{0.1,0.3,0.5,0.7,0.9\}, yielding 50 conversations per model-temperature pair.
 
-Conversations were generated using four LLMs: \texttt{qwen2.5:32b}, \texttt{qwen2.5:72b}, \texttt{llama3.2-vision:90b}, and \texttt{aya-expanse:32b}. For each model, five temperature values $\{0.1, 0.3, 0.5, 0.7, 0.9\}$ were used, resulting in 50 conversations per model-temperature pair.
-
-For analysis, each conversation is treated as a single document by concatenating all dialogue turns. No label-dependent preprocessing is applied.
+Each conversation is treated as a single document by concatenating all dialogue turns.
 
 \section{Method}
 
-We address model recognition using both unsupervised and supervised text mining approaches. Each conversation is represented using a TF--IDF-weighted bag-of-words model computed over the concatenated dialogue turns.
+We address model recognition using unsupervised and supervised text mining. Each conversation is represented using TF--IDF-weighted bag-of-words over concatenated dialogue turns.
+The vectorizer lowercases text, removes numeric characters, and tokenizes on word $n$-grams, retaining stop words as they carry stylistic information. Maximum vocabulary size is fixed at 15,000 terms to ensure equal dimensionality across configurations. We perform grid search over: $n$-gram range (1,2), (1,3), (2,3); minimum document frequency 2, 5; maximum document frequency 90\%, 100\%; sublinear TF scaling enabled, disabled.
+$n$-gram ranges exclude unigrams-only (insufficient for stylistic signals) and $n$-grams larger than trigrams (too sparse for the dataset size). Document frequency thresholds filter very rare and common terms that may introduce noise.
+To avoid label-dependent bias, we randomly split data into 80\% training and 20\% test sets. Vectorizer parameters are selected exclusively on the training set using $k$-means clustering with silhouette score as the internal metric, without access to ground-truth labels. Once selected, parameters are fixed for all analyses.
+$k$-means uses the number of clusters equal to the number of generating models, reflecting our goal of assessing whether texts from different LLMs form distinct groups. The algorithm runs with 10 random initializations to mitigate sensitivity to initial centroids.
 
-To avoid introducing label-dependent bias during feature engineering, the dataset is first split into training and test sets. Vectorizer parameters (e.g., vocabulary size and $n$-gram range) are selected exclusively on the training set using internal clustering criteria applied to $k$-means, without access to ground-truth model labels. Once selected, these parameters are fixed for all subsequent analyses.
+After vectorizer tuning, we train a linear SVM in one-vs-rest mode to predict the generating model. Classification performance on the test set quantifies model separability. We validate the method via label shuffling, where randomly permuted labels check for information leakage or artifacts.
+We perform margin and weight analysis to identify discriminative features and use a Random Forest classifier with formatting features (newlines, question marks, exclamation marks, character count, word count) to assess whether superficial cues alone enable recognition.
+Clustering quality is evaluated post hoc using cluster purity and Adjusted Rand Index (ARI), comparing induced clusters to true labels against a random baseline.
 
-For unsupervised analysis, we apply $k$-means clustering to the training data, setting the number of clusters equal to the number of generating models. Clustering quality is evaluated post hoc by comparing induced clusters to true model labels using external metrics such as Adjusted Rand Index and Normalized Mutual Information.
+\section{Results}
 
-In the $k$-means experiments, the number of clusters was fixed to the number of generating models. This reflects the specific goal of assessing whether texts produced by different LLMs form distinct groups, rather than discovering an unknown number of latent clusters.
+\subsection{Vectorizer Tuning}
 
-In parallel, we train supervised linear classifiers on the same training data to predict the generating model. Classification performance on the held-out test set provides a quantitative measure of model separability. To support qualitative analysis, we apply the LIME framework to the trained classifiers in order to identify lexical features that contribute most strongly to model predictions.
+During vectorizer hyperparameter tuning, the best configuration achieved a silhouette score of 0.128 on the training set. This configuration used an $n$-gram range of (1,3), minimum document frequency of 5, maximum document frequency of 100\%, and linear TF scaling (sublinear disabled). Higher-scoring configurations consistently included linear TF scaling and $n$-gram range of (1,3). Lower-scoring configurations tended to use sublinear TF scaling and $n$-gram ranges of (1,2) or (2,3), showing that capturing broader contexts from unigrams to trigrams is important for identifying stylistic patterns, and that sublinear TF scaling may dampen important frequency signals.
 
-\section{Document Body}
+We visually inspected clustering results using PCA for dimensionality reduction, as shown in Figure~\ref{fig:best_clusters} (two best configurations by silhouette score) and Figure~\ref{fig:worst_clusters} (worst configuration). The PCA plots show high separation between most clusters, with some overlap between two clusters. Lower silhouette-scoring configurations exhibit slightly more separation between these two clusters and more compact clusters overall. We used PCA because it preserves global structure, making it suitable for assessing overall cluster separation for subsequent linear classification, and because it requires no additional hyperparameter tuning unlike t-SNE or UMAP.\
 
-\subsection{Footnotes}
+\begin{figure}[b]
+  \includegraphics[width=\columnwidth]{images/best_clusters.png}
+  \caption{
+    PCA projections of the two best clustering configurations according to silhouette score. The first on the left and the second on the right.
+  }\label{fig:best_clusters}
+\end{figure}
 
-Footnotes are inserted with the \verb|\footnote| command.\footnote{This is a footnote.}
+\begin{figure}[t]
+  \includegraphics[width=\columnwidth]{images/worst_cluster.png}
+  \caption{
+    PCA projections of the two worst clustering configuration according to silhouette score. The lowest on the left and the second lowest on the right.
+  }\label{fig:worst_clusters}
+\end{figure}
 
-\subsection{Tables and figures}
+\subsection{Clustering Evaluation}
 
-See Table~\ref{tab:accents} for an example of a table and its caption.
-\textbf{Do not override the default caption sizes.}
+After fixing vectorizer parameters, we evaluated clustering quality on the training set using ARI as an external metric. The best configuration achieved an ARI of 0.997 compared to a random baseline of 0.001, indicating that induced clusters align very closely with true model labels. This suggests that distinct linguistic patterns characteristic of each LLM's generation style are effectively captured by the selected TF--IDF representation.
+Cluster purity for each cluster is reported in Table~\ref{tab:cluster_purity}, where each cluster is assigned to its most frequent model. All clusters achieved very high purity: three achieved perfect purity of 1.00, and one achieved 0.99 (one \texttt{aya-expanse:32b} document was assigned to the \texttt{qwen2.5:32b}-dominated cluster).
 
 \begin{table}
   \centering
+  \small
   \begin{tabular}{lc}
-    \hline
-    \textbf{Command} & \textbf{Output} \\
-    \hline
-    \verb|{\"a}|     & {\"a}           \\
-    \verb|{\^e}|     & {\^e}           \\
-    \verb|{\`i}|     & {\`i}           \\
-    \verb|{\.I}|     & {\.I}           \\
-    \verb|{\o}|      & {\o}            \\
-    \verb|{\'u}|     & {\'u}           \\
-    \verb|{\aa}|     & {\aa}           \\\hline
+    \toprule
+    \textbf{Model} & \textbf{Purity} \\
+    \midrule
+    \texttt{aya-expanse:32b} & 1.00 \\
+    \texttt{llama3.2-vision:90b} & 1.00 \\
+    \texttt{qwen2.5:32b} & 0.99 \\
+    \texttt{qwen2.5:72b} & 1.00 \\
+    \bottomrule
   \end{tabular}
-  \begin{tabular}{lc}
-    \hline
-    \textbf{Command} & \textbf{Output} \\
-    \hline
-    \verb|{\c c}|    & {\c c}          \\
-    \verb|{\u g}|    & {\u g}          \\
-    \verb|{\l}|      & {\l}            \\
-    \verb|{\~n}|     & {\~n}           \\
-    \verb|{\H o}|    & {\H o}          \\
-    \verb|{\v r}|    & {\v r}          \\
-    \verb|{\ss}|     & {\ss}           \\
-    \hline
-  \end{tabular}
-  \caption{Example commands for accented characters, to be used in, \emph{e.g.}, Bib\TeX{} entries.}
-  \label{tab:accents}
+  \caption{Cluster purity for each cluster where each cluster is assigned to the model that is most frequent in it.}\label{tab:cluster_purity}
 \end{table}
 
-As much as possible, fonts in figures should conform
-to the document fonts. See Figure~\ref{fig:experiments} for an example of a figure and its caption.
+We also inspected cluster centroids to identify the most representative terms for each model. The top five terms based on centroid values are reported in Table~\ref{tab:top_terms} with their corresponding TF--IDF values. The identified terms reveal distinctive linguistic patterns and include articles (\emph{di}, \emph{il}, \emph{un}), prepositions (\emph{per}), and common Italian names (\emph{Marco}, \emph{Luca}, \emph{Sofia}, \emph{Alessandro}, \emph{Giovanna}, \emph{Leo}).
 
-Using the \verb|graphicx| package graphics files can be included within figure
-environment at an appropriate point within the text.
-The \verb|graphicx| package supports various optional arguments to control the
-appearance of the figure.
-You must include it explicitly in the \LaTeX{} preamble (after the
-\verb|\documentclass| declaration and before \verb|\begin{document}|) using
-\verb|\usepackage{graphicx}|.
+\begin{table*}[t]
+  \centering
+  \small
+  \begin{tabular}{ll S S S S S}
+    \toprule
+    \textbf{Model} &  &
+    \textbf{1st} & \textbf{2nd} & \textbf{3rd} & \textbf{4th} & \textbf{5th} \\
+    \midrule
+    \multirow{2}{*}{\texttt{aya-expanse:32b}}
+    & Term   & {di} & {per} & {Leo} & {un} & {Marco} \\
+    & TF--IDF & 0.206 & 0.153 & 0.108 & 0.094 & 0.092 \\
+    \midrule
+    \multirow{2}{*}{\texttt{llama3.2-vision:90b}}
+    & Term   & {di} & {per} & {un} & {Alessandro} & {Sofia} \\
+    & TF--IDF & 0.192 & 0.133 & 0.095 & 0.094 & 0.093 \\
+    \midrule
+    \multirow{2}{*}{\texttt{qwen2.5:32b}}
+    & Term   & {di} & {per} & {Giovanna} & {il} & {Marco} \\
+    & TF--IDF & 0.164 & 0.111 & 0.097 & 0.074 & 0.061 \\
+    \midrule
+    \multirow{2}{*}{\texttt{qwen2.5:72b}}
+    & Term   & {di} & {per} & {Luca} & {un} & {il} \\
+    & TF--IDF & 0.165 & 0.116 & 0.112 & 0.083 & 0.076 \\
+    \bottomrule
+  \end{tabular}
+  \caption{Top terms for each model based on cluster centroids, with corresponding TF--IDF weights.}\label{tab:top_terms}
+\end{table*}
 
-\begin{figure}[t]
-  \includegraphics[width=\columnwidth]{example-image-golden}
-  \caption{A figure with a caption that runs for more than one line.
-    Example image is usually available through the \texttt{mwe} package
-  without even mentioning it in the preamble.}
-  \label{fig:experiments}
-\end{figure}
+\subsection{Classification Evaluation}
 
-\begin{figure*}[t]
-  \includegraphics[width=0.48\linewidth]{example-image-a} \hfill
-  \includegraphics[width=0.48\linewidth]{example-image-b}
-  \caption {A minimal working example to demonstrate how to place
-  two images side-by-side.}
-\end{figure*}
-
-\subsection{Hyperlinks}
-
-Users of older versions of \LaTeX{} may encounter the following error during compilation:
-\begin{quote}
-  \verb|\pdfendlink| ended up in different nesting level than \verb|\pdfstartlink|.
-\end{quote}
-This happens when pdf\LaTeX{} is used and a citation splits across a page boundary. The best way to fix this is to upgrade \LaTeX{} to 2018-12-01 or later.
-
-\subsection{Citations}
+After fixing vectorizer parameters, we trained a linear SVM classifier on the training set to predict the generating model. On the held-out test set, the classifier achieved 100\% accuracy, indicating perfect separability between texts even with linear decision boundaries. To validate the method, we performed a label shuffling experiment where model labels were randomly permuted before training. The classifier achieved 24\% accuracy, close to the random baseline of 25\%, confirming no information leakage or artifacts were present in the data.
+Given perfect classification accuracy, we investigated what made the models so easily separable by analyzing classifier weights for each model. Table~\ref{tab:feature_weights} reports the top five most influential positive and negative features for predicting each model, with their corresponding weights. Again we observe that personal names (\emph{Alessia}, \emph{Giovanni}, \emph{Matteo}, \emph{Piero}) are highly discriminative in favoring or disfavoring certain models. We also observe that 23/40 of the most influential features are unigrams, 12/40 are bigrams, and 5/40 are trigrams, indicating that both individual words and short phrases contribute to model fingerprinting. Frequently there are overlapping words between $n$-grams, indicating that certain roots or stems are particularly characteristic of specific models.
 
 \begin{table*}
   \centering
-  \begin{tabular}{lll}
-    \hline
-    \textbf{Output}           & \textbf{natbib command} & \textbf{ACL only command} \\
-    \hline
-    \citep{Gusfield:97}       & \verb|\citep|           &                           \\
-    \citealp{Gusfield:97}     & \verb|\citealp|         &                           \\
-    \citet{Gusfield:97}       & \verb|\citet|           &                           \\
-    \citeyearpar{Gusfield:97} & \verb|\citeyearpar|     &                           \\
-    \citeposs{Gusfield:97}    &                         & \verb|\citeposs|          \\
-    \hline
+  \small
+  \begin{tabular}{ll l S l S}
+    \toprule
+    \textbf{Model} & \textbf{Type}
+    & \multicolumn{2}{c}{\textbf{Top ($+$)}}
+    & \multicolumn{2}{c}{\textbf{Bottom ($-$)}} \\
+    \cmidrule(lr){3-4}\cmidrule(lr){5-6}
+    & & \textbf{Feature} & \textbf{Weight}
+    & \textbf{Feature} & \textbf{Weight} \\
+    \midrule
+
+    \multirow{5}{*}{\texttt{aya-expanse:32b}}
+    & & Alessia   &  1.1923 & Potresti & -0.6836 \\
+    & & più       &  0.6923 & capricci & -0.6457 \\
+    & & con il    &  0.6373 & le       & -0.6383 \\
+    & & nonni     &  0.6360 & le sue   & -0.6364 \\
+    & & il latte  &  0.6359 & sue      & -0.6267 \\
+    \midrule
+
+    \multirow{5}{*}{\texttt{llama3.2-vision:90b}}
+    & & Ciao          &  0.8487 & Alessia        & -0.7350 \\
+    & & venerdì      &  0.7520 & Giovanni       & -0.6602 \\
+    & & nella scelta &  0.7482 & una dieta più  & -0.6319 \\
+    & & nella        &  0.7412 & dieta più      & -0.6077 \\
+    & & scegli per   &  0.6922 & disponibilità  & -0.6040 \\
+    \midrule
+
+    \multirow{5}{*}{\texttt{qwen2.5:32b}}
+    & & le                     &  0.8802 & pasti              & -0.9818 \\
+    & & specifiche puoi fare   &  0.7321 & Matteo             & -0.7074 \\
+    & & puoi fare              &  0.6688 & Piero              & -0.6632 \\
+    & & puoi fare per          &  0.6575 & Sono qui per       & -0.5900 \\
+    & & lei                    &  0.5862 & molto determinato  & -0.5618 \\
+    \midrule
+
+    \multirow{5}{*}{\texttt{qwen2.5:72b}}
+    & & pasti           &  0.6983 & iniziare     & -0.7159 \\
+    & & Sono qui        &  0.6735 & sostegno     & -0.5914 \\
+    & & fine settimana  &  0.6553 & momenti      & -0.5480 \\
+    & & della famiglia  &  0.6479 & di succo di  & -0.5251 \\
+    & & fine            &  0.6042 & di succo     & -0.5212 \\
+    \bottomrule
   \end{tabular}
-  \caption{\label{citation-guide}
-    Citation commands supported by the style file.
-    The style is based on the natbib package and supports all natbib citation commands.
-    It also supports commands defined in previous ACL style files for compatibility.
-  }
+
+  \caption{Most influential positive (Top) and negative (Bottom) feature weights for each model.}
+  \label{tab:feature_weights}
 \end{table*}
 
-Table~\ref{citation-guide} shows the syntax supported by the style files.
-We encourage you to use the natbib styles.
-You can use the command \verb|\citet| (cite in text) to get ``author (year)'' citations, like this citation to a paper by \citet{Gusfield:97}.
-You can use the command \verb|\citep| (cite in parentheses) to get ``(author, year)'' citations \citep{Gusfield:97}.
-You can use the command \verb|\citealp| (alternative cite without parentheses) to get ``author, year'' citations, which is useful for using citations within parentheses (e.g. \citealp{Gusfield:97}).
+\subsection{Formatting Features Evaluation}
 
-A possessive citation can be made with the command \verb|\citeposs|.
-This is not a standard natbib command, so it is generally not compatible
-with other style files.
+We evaluated whether superficial formatting cues alone are sufficient for model recognition. We extracted five simple formatting features from the raw text of each conversation: total number of newlines, total number of question marks, total number of exclamation marks, total document length in characters, and total document length in words.
+These features capture basic structural aspects that may vary between models. We trained a Random Forest classifier with 50 estimators on the training set using only these formatting features. On the held-out test set, the classifier achieved 90.5\% accuracy, indicating that even superficial formatting cues contain significant information for model recognition. This suggests that different LLMs exhibit distinct tendencies in text structure and punctuation usage, which can be exploited for fingerprinting.
 
-\subsection{References}
+\section{Discussion}
 
-\nocite{Ando2005,andrew2007scalable,rasooli-tetrault-2015}
+\subsection{Main Findings}
 
-The \LaTeX{} and Bib\TeX{} style files provided roughly follow the American Psychological Association format.
-If your own bib file is named \texttt{custom.bib}, then placing the following before any appendices in your \LaTeX{} file will generate the references section for you:
-\begin{quote}
-\begin{verbatim}
-\bibliography{custom}
-\end{verbatim}
-\end{quote}
+The results demonstrate that LLM-generated texts with fixed prompts and structure can be effectively fingerprinted based on their linguistic patterns alone, even with similar model architectures like the two \texttt{qwen2.5} variants. Both unsupervised clustering and supervised classification achieved near-perfect separability between texts from different models, indicating that distinct generation styles are captured by the TF--IDF representation.
+Interpretability analysis revealed that specific words and phrases, including personal names and common Italian articles and prepositions, are highly characteristic of each model's output. This suggests that LLMs may develop unique lexical preferences and stylistic tendencies even when following identical prompts. Additionally, the most influential features of the classifier showed that some models favored or disfavored certain terms or phrases, further highlighting their distinctive generation behaviors.
+Personal names appear to play a significant role in model differentiation, possibly reflecting biases of some models toward certain names. Other terms like \emph{pasti} (meals), \emph{latte} (milk), and \emph{capricci} (tantrums) may indicate differing emphases on dietary and behavioral aspects in the counseling context. Phrasings like \emph{puoi fare} (you can do), \emph{nella scelta} (in the choice), and \emph{fine settimana} (weekend) are particularly discriminative, suggesting that certain models may prefer more directive or choice-oriented language. The strong discriminative role of personal names suggests that some fingerprints may stem from prompt-internal name sampling rather than deeper stylistic properties.
 
-You can obtain the complete ACL Anthology as a Bib\TeX{} file from \url{https://aclweb.org/anthology/anthology.bib.gz}.
-To include both the Anthology and your own .bib file, use the following instead of the above.
-\begin{quote}
-\begin{verbatim}
-\bibliography{anthology,custom}
-\end{verbatim}
-\end{quote}
+\subsection{Formatting Features}
 
-Please see Section~\ref{sec:bibtex} for information on preparing Bib\TeX{} files.
+The high classification accuracy achieved using only simple formatting features indicates that superficial text structure also varies systematically between LLMs. Differences in the number of newlines, question marks, and exclamation marks suggest that models may have distinct tendencies in dialogue pacing, interrogative style, and emotional expression. Variations in document length further imply differing verbosity levels that can aid in model recognition. These findings highlight that both deep linguistic patterns and surface-level formatting cues contribute to the fingerprinting of LLM-generated texts. Even though formatting features alone are not sufficient for perfect classification, they provide a strong signal that complements the richer linguistic features captured by TF--IDF representations.
 
-\subsection{Equations}
+\section{Generalization and Limitations}
 
-An example equation is shown below:
-\begin{equation}
-  \label{eq:example}
-  A = \pi r^2
-\end{equation}
+While the study demonstrates effective fingerprinting of LLM-generated texts in a controlled counseling dialogue setting, several limitations should be considered. The dataset consists of fixed prompts and structure, which may not be representative of more open-ended or diverse generation scenarios. The analysis is limited to four specific LLMs, and the $k$ parameter of $k$-means was set to the known number of models, which may not generalize to settings with unknown or larger model sets. Additionally, the focus on Italian texts may limit applicability to other languages with different linguistic characteristics, even though the methods are language-agnostic. The interpretability analysis primarily relies on linear model weights, which may not capture more complex interactions between features. Future work could explore more diverse datasets, additional LLM architectures, and advanced interpretability techniques to further validate and extend these findings.
 
-Labels for equation numbers, sections, subsections, figures and tables
-are all defined with the \verb|\label{label}| command and cross references
-to them are made with the \verb|\ref{label}| command.
+\section{Conclusion}
 
-This an example cross-reference to Equation~\ref{eq:example}.
+In this work, we investigated whether Large Language Models can be reliably identified from generated text alone under strictly controlled prompting and interaction conditions. By framing the problem as a model recognition task and combining unsupervised clustering with supervised classification, we showed that LLM-specific linguistic and structural signatures are observable when prompts, language, and dialogue structure are held constant and the number of generating models is known.
+Our results demonstrate that a TF--IDF representation over word $n$-grams captures highly discriminative stylistic signals, enabling near-perfect separation between models in both clustering and classification settings. The strong alignment between induced clusters and true model labels, together with perfect test-set classification accuracy, provides compelling evidence that these signatures reflect systematic differences in generation behavior across models. Interpretability analyses further revealed that both lexical preferences and recurring phrasal patterns, including the use of personal names and function words, contribute substantially to model fingerprinting.
 
-\subsection{Appendices}
-
-Use \verb|\appendix| before any appendix section to switch the section numbering over to letters. See Appendix~\ref{sec:appendix} for an example.
-
-\section{Bib\TeX{} Files}
-\label{sec:bibtex}
-
-Unicode cannot be used in Bib\TeX{} entries, and some ways of typing special characters can disrupt Bib\TeX's alphabetization. The recommended way of typing special characters is shown in Table~\ref{tab:accents}.
-
-Please ensure that Bib\TeX{} records contain DOIs or URLs when possible, and for all the ACL materials that you reference.
-Use the \verb|doi| field for DOIs and the \verb|url| field for URLs.
-If a Bib\TeX{} entry has a URL or DOI field, the paper title in the references section will appear as a hyperlink to the paper, using the hyperref \LaTeX{} package.
-
-\section*{Limitations}
-
-This document does not cover the content requirements for ACL or any
-other specific venue.  Check the author instructions for
-information on
-maximum page lengths, the required ``Limitations'' section,
-and so on.
-
-\section*{Acknowledgments}
-
-This document has been adapted
-by Steven Bethard, Ryan Cotterell and Rui Yan
-from the instructions for earlier ACL and NAACL proceedings, including those for
-ACL 2019 by Douwe Kiela and Ivan Vuli\'{c},
-NAACL 2019 by Stephanie Lukin and Alla Roskovskaya,
-ACL 2018 by Shay Cohen, Kevin Gimpel, and Wei Lu,
-NAACL 2018 by Margaret Mitchell and Stephanie Lukin,
-Bib\TeX{} suggestions for (NA)ACL 2017/2018 from Jason Eisner,
-ACL 2017 by Dan Gildea and Min-Yen Kan,
-NAACL 2017 by Margaret Mitchell,
-ACL 2012 by Maggie Li and Michael White,
-ACL 2010 by Jing-Shin Chang and Philipp Koehn,
-ACL 2008 by Johanna D. Moore, Simone Teufel, James Allan, and Sadaoki Furui,
-ACL 2005 by Hwee Tou Ng and Kemal Oflazer,
-ACL 2002 by Eugene Charniak and Dekang Lin,
-and earlier ACL and EACL formats written by several people, including
-John Chen, Henry S. Thompson and Donald Walker.
-Additional elements were taken from the formatting instructions of the \emph{International Joint Conference on Artificial Intelligence} and the \emph{Conference on Computer Vision and Pattern Recognition}.
-
-% Bibliography entries for the entire Anthology, followed by custom entries
-%\bibliography{custom,anthology-overleaf-1,anthology-overleaf-2}
+Moreover, the finding that simple formatting features alone achieve high classification accuracy highlights that model-specific variation extends beyond lexical choice to surface-level properties such as verbosity, punctuation, and dialogue structuring. This suggests that LLM fingerprints emerge at multiple levels of textual organization, from shallow formatting cues to deeper linguistic patterns.
+Overall, this study provides empirical evidence that LLM-generated texts carry distinctive and detectable signatures in highly constrained conversational settings. Future work should explore the robustness of these fingerprints across languages, tasks, and prompt variability.
 
 % Custom bibliography entries only
 \bibliography{custom}
 
-\appendix
+% \appendix
 
-\section{Example Appendix}
-\label{sec:appendix}
+% \section{Example Appendix}
+% \label{sec:appendix}
 
-This is an appendix.
+% This is an appendix.
 
 \end{document}
